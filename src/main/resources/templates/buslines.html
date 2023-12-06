@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            color: #007BFF;
+        }
+
+        .bus-line {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .bus-line h2 {
+            color: #007BFF;
+        }
+
+        .stop-list {
+            list-style-type: none;
+            padding: 0;
+            display: none;
+        }
+
+        .stop-list-item {
+            margin-bottom: 5px;
+            background-color: #f0f0f0;
+            padding: 5px;
+            border-radius: 3px;
+        }
+    </style>
+    <script>
+        function toggleStops(busLineIndex) {
+            var stopList = document.getElementById('stop-list-' + busLineIndex);
+            stopList.style.display = (stopList.style.display === 'none' || stopList.style.display === '') ? 'block' : 'none';
+        }
+    </script>
+    <title>Bus Lines</title>
+</head>
+<body>
+<h1>Bus Lines</h1>
+
+<div th:each="busLine, lineIndex : ${busLines}" class="bus-line" th:onclick="'toggleStops(' + ${lineIndex.index} + ');'">
+    <h2 th:text="${'Bus Line: ' + busLine.getLineDesignation()}"></h2>
+    <h3 th:text="${'Number of stops: ' + busLine.getStops().size()}"></h3>
+    <ul th:id="'stop-list-' + ${lineIndex.index}" class="stop-list">
+        <li class="stop-list-item" th:each="stop : ${busLine.stops}" th:text="${stop.stopPointName()}"></li>
+    </ul>
+</div>
+</body>
+</html>
